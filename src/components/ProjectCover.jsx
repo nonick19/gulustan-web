@@ -19,20 +19,14 @@ export default function ProjectCover({ project, large = false, className = '' })
       style={{ backgroundImage: `linear-gradient(135deg, ${from}, ${to})` }}
     >
       <div
-        className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(255,255,255,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.35) 1px, transparent 1px)',
-          backgroundSize: '32px 32px',
-        }}
+        className="absolute -right-10 -top-12 h-40 w-40 rounded-full bg-white/20 blur-2xl"
       />
-      <div className="absolute -right-10 -top-12 h-40 w-40 rounded-full bg-white/20 blur-2xl" />
       <div className="absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-black/25 blur-2xl" />
 
-      <span className="absolute bottom-4 left-5 font-mono text-[0.7rem] uppercase tracking-[0.3em] text-white/80">
+      <span className="absolute bottom-4 left-5 font-mono text-[0.75rem] uppercase tracking-[0.3em] text-white">
         {project.category}
       </span>
-      <span className="absolute right-5 top-4 font-mono text-[0.7rem] text-white/70">
+      <span className="absolute right-5 top-4 font-mono text-[0.75rem] text-white/95">
         {project.year}
       </span>
     </div>

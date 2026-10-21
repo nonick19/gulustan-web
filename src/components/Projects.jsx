@@ -57,7 +57,7 @@ function TagList({ tags }) {
       {tags.map((tag) => (
         <span
           key={tag}
-          className="badge badge-sm border-white/10 bg-white/5 font-mono text-[0.7rem] text-base-content/60"
+          className="badge badge-sm border-white/10 bg-white/5 font-mono text-[0.75rem] text-base-content/60"
         >
           {tag}
         </span>
@@ -72,7 +72,7 @@ function ProjectCard({ project, onOpen }) {
       <ProjectCover project={project} />
       <div className="card-body gap-3 p-5">
         <h3 className="text-base font-bold leading-snug">
-          <button type="button" onClick={() => onOpen(project)} className="text-left hover:text-primary">
+          <button type="button" onClick={() => onOpen(project)} className="text-left hover:text-accent">
             {project.title}
           </button>
         </h3>
@@ -82,7 +82,7 @@ function ProjectCard({ project, onOpen }) {
           <button
             type="button"
             onClick={() => onOpen(project)}
-            className="btn btn-ghost btn-xs gap-1 px-0 text-primary hover:bg-transparent hover:text-secondary"
+            className="btn btn-ghost btn-xs gap-1 px-0 text-accent hover:bg-transparent hover:text-secondary"
           >
             Vaka detayı <ArrowIcon />
           </button>
@@ -105,7 +105,7 @@ function FeaturedCard({ project, onOpen }) {
 
         <div>
           <h3 className="text-xl font-bold leading-tight md:text-2xl">
-            <button type="button" onClick={() => onOpen(project)} className="text-left hover:text-primary">
+            <button type="button" onClick={() => onOpen(project)} className="text-left hover:text-accent">
               {project.title}
             </button>
           </h3>
@@ -172,7 +172,7 @@ export default function Projects({ filter, onFilterChange }) {
               <button
                 type="button"
                 onClick={() => onFilterChange('all')}
-                className="badge badge-primary badge-soft badge-sm gap-1.5 py-3"
+                className="badge badge-soft badge-accent badge-sm gap-1.5 py-3"
                 aria-label={`${filter} filtresini kaldır`}
               >
                 {filter}

@@ -79,6 +79,7 @@
 
   body {
     -webkit-font-smoothing: antialiased;
+    text-wrap: pretty;
   }
 
   ::selection {
@@ -118,6 +119,23 @@
       animation: none;
     }
   }
+}
+
+/* ---------- Butonlar ----------
+   Beyaz metnin WCAG AA kontrastı (4.5:1) için birincil butonun zemini
+   daisyUI varsayılanından bir tık koyulaştırıldı. Renk zinciri
+   daisyUI'nin kendi --btn-color akışına bırakıldı. */
+.btn.btn-primary {
+  --btn-color: #5f3ce8;
+}
+
+.btn.btn-primary:hover {
+  --btn-color: #4f2fd6;
+}
+
+/* Beyaz metinli rozetlerde de aynı koyu ton kullanılıyor. */
+.badge.badge-primary {
+  --badge-color: #5f3ce8;
 }
 
 /* ---------- Hero canvas ---------- */

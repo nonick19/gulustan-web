@@ -7,7 +7,7 @@ export default function About() {
         <SectionTitle num="01." title="Hakkımda" />
 
         <div className="grid gap-8 lg:grid-cols-[1.6fr_1fr] lg:gap-14" data-reveal>
-          <div className="space-y-5 text-[1.02rem] leading-relaxed text-base-content/60">
+          <div className="max-w-[560px] space-y-5 text-[1.02rem] leading-relaxed text-base-content/60">
             <p>
               AI Engineer ve AI Context Manager olarak, büyük dil modellerini gerçek ürünlere
               dönüştüren sistemler üzerinde çalışıyorum. Odak noktam, LLM&apos;lerin yalnızca etkileyici

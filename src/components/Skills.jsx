@@ -32,7 +32,7 @@ function SkillRow({ skill, onFilter }) {
         {skill.tags.map((tag) => (
           <span
             key={tag}
-            className="badge badge-sm border-white/5 bg-white/5 font-mono text-[0.68rem] text-base-content/55"
+            className="badge badge-sm border-white/5 bg-white/5 font-mono text-[0.75rem] text-base-content/55"
           >
             {tag}
           </span>
@@ -41,7 +41,7 @@ function SkillRow({ skill, onFilter }) {
           <button
             type="button"
             onClick={() => onFilter(skill.filter)}
-            className="ml-auto inline-flex items-center gap-1 text-xs font-medium text-primary hover:text-secondary"
+            className="ml-auto inline-flex items-center gap-1 text-xs font-medium text-accent hover:text-secondary"
           >
             İlgili projeler ({count}) <span aria-hidden="true">→</span>
           </button>

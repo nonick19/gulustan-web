@@ -80,7 +80,7 @@ export default function ProjectModal({ project, onClose }) {
               <ul className="space-y-2">
                 {project.approach.map((item) => (
                   <li key={item} className="flex gap-2 text-sm text-base-content/70">
-                    <span aria-hidden="true" className="mt-0.5 text-primary">
+                    <span aria-hidden="true" className="mt-0.5 text-accent">
                       ▸
                     </span>
                     <span>{item}</span>
@@ -106,7 +106,7 @@ export default function ProjectModal({ project, onClose }) {
               {project.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="badge badge-sm border-white/10 bg-white/5 font-mono text-[0.7rem] text-base-content/60"
+                  className="badge badge-sm border-white/10 bg-white/5 font-mono text-[0.75rem] text-base-content/60"
                 >
                   {tag}
                 </span>
