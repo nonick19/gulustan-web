@@ -1,13 +1,14 @@
-// Proje kapakları görsel gerektirmeden, kategoriye göre üretilen gradyanlardır.
-// Gerçek görseliniz olduğunda `project.image` alanını doldurup burada <img> kullanabilirsiniz.
+// Proje kapakları görsel gerektirmeden, kategoriye göre ürelen düz tonlu
+// yüzeylerdir. Gerçek görseliniz olduğunda `project.image` alanını doldurup
+// burada <img> kullanabilirsiniz.
 const coverPalettes = {
-  RAG: ['#4c1d95', '#0e7490'],
-  Agent: ['#5b21b6', '#1e3a8a'],
-  Pipeline: ['#0e7490', '#0f766e'],
-  Memory: ['#6d28d9', '#0e7490'],
+  RAG: ['#7a3327', '#2e1512'],
+  Agent: ['#6b4a1f', '#241705'],
+  Pipeline: ['#2f5d50', '#0f2420'],
+  Memory: ['#7a4a2b', '#2a1710'],
 }
 
-const fallback = ['#312e81', '#155e75']
+const fallback = ['#4a3b2c', '#1c1510']
 
 export default function ProjectCover({ project, large = false, className = '' }) {
   const [from, to] = coverPalettes[project.category] ?? fallback

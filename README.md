@@ -42,7 +42,8 @@ yazmamak için mevcut sürümde yalnızca nitel sonuçlar gösteriliyor.
 ## Tasarım sistemi
 
 - Tema: `gulustan` (daisyUI custom theme), varsayılan ve koyu.
-- Ana renkler: `#7c5cff` (primary), `#22d3ee` (secondary), `#0b0d14` (base-100).
+- Ana renkler: `#d96c45` (primary / terracotta), `#e9b44c` (secondary / amber), `#17140f` (base-100 / sıcak mürekkep).
+- Yazı tipleri: başlıklarda [Fraunces](https://fonts.google.com/specimen/Fraunces), gövde metinde [Public Sans](https://fonts.google.com/specimen/Public+Sans) (Google Fonts üzerinden yükleniyor).
 - Bileşenler: `card`, `btn`, `badge`, `tabs`, `modal`, `steps`.
 - 3D hero sahnesi ayrı pakette yüklenir (`HeroScene` lazy import).
 

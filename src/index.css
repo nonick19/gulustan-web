@@ -4,41 +4,42 @@
   themes: false;
 }
 
-/* Mevcut marka paleti daisyUI teması olarak tanımlandı. */
+/* Marka paleti: sıcak mürekkep zemin, terracotta ana vurgu, amber ikincil.
+   Mor/camgöbeği gradyan kalıbı bilinçli olarak kullanılmıyor. */
 @plugin "daisyui/theme" {
   name: "gulustan";
   default: true;
   prefersdark: true;
   color-scheme: dark;
 
-  --color-base-100: #0b0d14;
-  --color-base-200: #12151f;
-  --color-base-300: #1b2030;
-  --color-base-content: #e6e9f2;
+  --color-base-100: #17140f;
+  --color-base-200: #201b15;
+  --color-base-300: #2b241b;
+  --color-base-content: #f3ede3;
 
-  --color-primary: #7c5cff;
-  --color-primary-content: #ffffff;
+  --color-primary: #d96c45;
+  --color-primary-content: #22130a;
 
-  --color-secondary: #22d3ee;
-  --color-secondary-content: #04141a;
+  --color-secondary: #e9b44c;
+  --color-secondary-content: #2a1f06;
 
-  --color-accent: #a78bfa;
-  --color-accent-content: #0b0d14;
+  --color-accent: #e8926e;
+  --color-accent-content: #2a1204;
 
-  --color-neutral: #161a26;
-  --color-neutral-content: #e6e9f2;
+  --color-neutral: #24201a;
+  --color-neutral-content: #ede6da;
 
-  --color-info: #38bdf8;
-  --color-info-content: #04141a;
+  --color-info: #8fb0c9;
+  --color-info-content: #0d1620;
 
-  --color-success: #34d399;
-  --color-success-content: #04140e;
+  --color-success: #93b87c;
+  --color-success-content: #101c0a;
 
-  --color-warning: #fbbf24;
-  --color-warning-content: #1a1204;
+  --color-warning: #e9b44c;
+  --color-warning-content: #2a1f06;
 
-  --color-error: #f87171;
-  --color-error-content: #1a0404;
+  --color-error: #e05b5b;
+  --color-error-content: #200606;
 
   --radius-selector: 9999px;
   --radius-field: 0.625rem;
@@ -53,22 +54,15 @@
 }
 
 @theme {
-  --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+  --font-sans: 'Public Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-mono: ui-monospace, 'Cascadia Mono', Consolas, monospace;
 }
 
 /* Sayfa genişliği: tek bir yerden yönetilir. */
 @utility shell {
   width: min(1100px, 92%);
   margin-inline: auto;
-}
-
-/* Hero başlığındaki marka gradyanı. */
-@utility text-gradient {
-  background-image: linear-gradient(120deg, #ffffff 30%, var(--color-primary) 75%, var(--color-secondary));
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
 }
 
 @layer base {
@@ -82,9 +76,17 @@
     text-wrap: pretty;
   }
 
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+  }
+
   ::selection {
     background-color: var(--color-primary);
-    color: #ffffff;
+    color: var(--color-primary-content);
   }
 
   :focus-visible {
@@ -121,32 +123,7 @@
   }
 }
 
-/* ---------- Butonlar ----------
-   Beyaz metnin WCAG AA kontrastı (4.5:1) için birincil butonun zemini
-   daisyUI varsayılanından bir tık koyulaştırıldı. Renk zinciri
-   daisyUI'nin kendi --btn-color akışına bırakıldı. */
-.btn.btn-primary {
-  --btn-color: #5f3ce8;
-}
-
-.btn.btn-primary:hover {
-  --btn-color: #4f2fd6;
-}
-
-/* Beyaz metinli rozetlerde de aynı koyu ton kullanılıyor. */
-.badge.badge-primary {
-  --badge-color: #5f3ce8;
-}
-
-/* ---------- Hero canvas ---------- */
-.hero__glow {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 72% 28%, rgba(124, 92, 255, 0.22), transparent 55%),
-    radial-gradient(circle at 18% 78%, rgba(34, 211, 238, 0.12), transparent 50%);
-}
-
+/* ---------- Hero ---------- */
 .hero__canvas {
   position: absolute;
   inset: 0;
@@ -159,7 +136,6 @@
   }
 }
 
-/* ---------- Hero scroll ipucu ---------- */
 .hero__scroll span {
   animation: scroll-hint 1.6s ease-in-out infinite;
 }

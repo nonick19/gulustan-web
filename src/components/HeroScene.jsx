@@ -14,8 +14,8 @@ function WireKnot() {
       <mesh ref={mesh}>
         <torusKnotGeometry args={[1.05, 0.32, 160, 24]} />
         <meshStandardMaterial
-          color="#7c5cff"
-          emissive="#4c1d95"
+          color="#d96c45"
+          emissive="#7a3327"
           emissiveIntensity={0.5}
           wireframe
           transparent
@@ -44,7 +44,7 @@ function ParticleField({ count = 900 }) {
     <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
       <PointMaterial
         transparent
-        color="#22d3ee"
+        color="#e9b44c"
         size={0.035}
         sizeAttenuation
         depthWrite={false}
@@ -73,8 +73,8 @@ export default function HeroScene() {
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
       >
         <ambientLight intensity={0.4} />
-        <pointLight position={[4, 4, 4]} intensity={1.2} color="#7c5cff" />
-        <pointLight position={[-4, -2, 2]} intensity={0.8} color="#22d3ee" />
+        <pointLight position={[4, 4, 4]} intensity={1.2} color="#d96c45" />
+        <pointLight position={[-4, -2, 2]} intensity={0.8} color="#e9b44c" />
         <WireKnot />
         <ParticleField />
         <Rig />

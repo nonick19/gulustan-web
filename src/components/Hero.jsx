@@ -6,14 +6,22 @@ const HeroScene = lazy(() => import('./HeroScene.jsx'))
 export default function Hero() {
   return (
     <section id="hero" className="relative flex min-h-screen items-center overflow-hidden">
-      <div className="hero__glow" aria-hidden="true" />
+      {/* Düz, keskin kenarlı malzeme vurgusu (bulanık hale değil). */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-28 top-1/2 h-[32rem] w-[32rem] -translate-y-1/2 rounded-full bg-primary/[0.08] lg:h-[44rem] lg:w-[44rem]"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute right-16 top-1/2 hidden h-[26rem] w-[26rem] -translate-y-1/2 rounded-full border border-secondary/15 lg:block"
+      />
       <Suspense fallback={null}>
         <HeroScene />
       </Suspense>
 
       <div className="pointer-events-none relative z-10 shell pb-24 pt-32">
         <p className="mb-3 font-mono text-sm tracking-[0.18em] text-secondary">Merhaba, ben</p>
-        <h1 className="text-gradient text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+        <h1 className="text-5xl font-bold leading-[1.05] tracking-tight text-base-content sm:text-6xl lg:text-7xl">
           Ali Gülüstan
         </h1>
         <h2 className="mt-4 text-xl font-semibold sm:text-2xl">
