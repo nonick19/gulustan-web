@@ -1,0 +1,93 @@
+---
+// Blog liste sayfası — /blog/ (tr) ve /en/blog/ (en) için tek kaynak.
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Navbar from './Navbar.astro'
+import Footer from './Footer.astro'
+import SectionTitle from './SectionTitle.astro'
+import { blogPath, homePath, ui } from '../i18n/ui.js'
+
+const { lang = 'tr', posts = [] } = Astro.props
+const t = ui[lang].blog
+const seoT = ui[lang].seo
+const path = blogPath(lang)
+const alternates = { tr: '/blog/', en: '/en/blog/' }
+const dateFormat = new Intl.DateTimeFormat(lang === 'tr' ? 'tr-TR' : 'en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+})
+---
+
+<BaseLayout
+  lang={lang}
+  title={seoT.blogTitle}
+  description={seoT.blogDescription}
+  path={path}
+  alternates={alternates}
+>
+  <Navbar lang={lang} path={path} alternatePath={alternates[lang === 'tr' ? 'en' : 'tr']} />
+
+  <main class="pb-24 pt-28 md:pt-36">
+    <div class="shell">
+      <a
+        href={homePath(lang)}
+        class="inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-secondary"
+      >
+        {t.home}
+      </a>
+
+      <div class="mt-6">
+        <SectionTitle num={t.num} title={t.title} lead={t.lead} />
+      </div>
+
+      {
+        posts.length === 0 ? (
+          <p class="rounded-2xl border border-dashed border-white/10 p-10 text-center text-sm text-base-content/50">
+            {t.empty}
+          </p>
+        ) : (
+          <div class="grid gap-5 md:grid-cols-2">
+            {posts.map((post) => (
+              <article
+                data-reveal
+                class="card border border-white/5 bg-base-200/50 p-6 transition duration-300 hover:-translate-y-1 hover:border-primary/40"
+              >
+                <div class="flex flex-wrap items-center gap-2">
+                  <time
+                    datetime={post.data.date.toISOString().slice(0, 10)}
+                    class="font-mono text-xs text-base-content/50"
+                  >
+                    {dateFormat.format(post.data.date)}
+                  </time>
+                  {post.data.tags.slice(0, 2).map((tag) => (
+                    <span class="badge badge-sm border-white/10 bg-white/5 font-mono text-[0.75rem] text-base-content/60">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <h2 class="mt-3 text-xl font-bold leading-snug">
+                  <a href={`${path}${post.data.slug}/`} class="hover:text-accent">
+                    {post.data.title}
+                  </a>
+                </h2>
+                <p class="mt-2 text-sm leading-relaxed text-base-content/60">{post.data.description}</p>
+
+                <div class="mt-4">
+                  <a
+                    href={`${path}${post.data.slug}/`}
+                    class="inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-secondary"
+                  >
+                    {t.postCta} <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </main>
+
+  <Footer lang={lang} path={path} />
+</BaseLayout>

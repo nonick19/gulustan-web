@@ -30,11 +30,18 @@ Her sayfanın `hreflang` (tr/en/x-default) ve canonical bağlantısı
 | Projeler (vaka çalışması içerikleri, iki dil) | `src/data/projects.js` |
 | Yetenek grupları, araç kutusu, süreç adımları (iki dil) | `src/data/skills.js` |
 | Arayüz metinleri ve SEO başlıkları (iki dil) | `src/i18n/ui.js` |
+| Blog yazıları (markdown, iki dil) | `src/content/blog/*.md` |
 | Marka renkleri, daisyUI teması, fontlar | `src/styles/global.css` |
 | Bölüm bileşenleri | `src/components/` |
 
 Her metin `tr` / `en` bloklarıyla yazılır; yeni bir metin eklerken iki dili de
 güncelleyin.
+
+### Blog yazısı ekleme
+
+`src/content/blog/` altına iki markdown dosyası ekleyin (biri `tr`, biri `en`) ve
+frontmatter'da aynı `translationKey`i paylaşın; `slug` dil bazında yerelleştirilmiş
+URL'i belirler. Yazılar `npm run build` ile otomatik listelenir ve sitemap'e girer.
 
 ### Projeye gerçek link ekleme
 

@@ -1,9 +1,10 @@
 ---
-import { homePath, ui } from '../i18n/ui.js'
+import { blogPath, homePath, ui } from '../i18n/ui.js'
 
 const { lang = 'tr', path = '/', alternatePath = '/en/' } = Astro.props
 const t = ui[lang]
 const home = homePath(lang)
+const blog = blogPath(lang)
 const onHome = path === home
 const sectionHref = (id) => (onHome ? `#${id}` : `${home}#${id}`)
 ---
@@ -33,6 +34,15 @@ const sectionHref = (id) => (onHome ? `#${id}` : `${home}#${id}`)
           </li>
         ))
       }
+      <li>
+        <a
+          href={blog}
+          aria-current={path.startsWith(blog) ? 'page' : undefined}
+          class="nav-link btn btn-ghost btn-sm font-medium text-base-content/70"
+        >
+          {t.navBlog}
+        </a>
+      </li>
       <li>
         <a
           href={alternatePath}
@@ -84,6 +94,15 @@ const sectionHref = (id) => (onHome ? `#${id}` : `${home}#${id}`)
           </li>
         ))
       }
+      <li>
+        <a
+          href={blog}
+          aria-current={path.startsWith(blog) ? 'page' : undefined}
+          class="flex rounded-lg px-3 py-2 text-sm font-medium text-base-content/70 transition-colors hover:bg-white/5"
+        >
+          {t.navBlog}
+        </a>
+      </li>
       <li>
         <a
           href={alternatePath}

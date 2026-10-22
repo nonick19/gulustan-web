@@ -1,0 +1,113 @@
+---
+// Blog yazı sayfası — içerik koleksiyonundan (src/content/blog) iki dilde üretilir.
+import { getCollection, render } from 'astro:content'
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Navbar from './Navbar.astro'
+import Footer from './Footer.astro'
+import { blogPath, homePath, ui } from '../i18n/ui.js'
+
+const { lang = 'tr', entry } = Astro.props
+const t = ui[lang].blog
+const path = blogPath(lang)
+const site = 'https://gulustan.net'
+
+const all = await getCollection('blog')
+const sibling = all.find(
+  (post) => post.data.translationKey === entry.data.translationKey && post.data.lang !== lang,
+)
+
+const trSlug = lang === 'tr' ? entry.data.slug : sibling?.data.slug
+const enSlug = lang === 'en' ? entry.data.slug : sibling?.data.slug
+const alternates = {
+  tr: trSlug ? `/blog/${trSlug}/` : '/blog/',
+  en: enSlug ? `/en/blog/${enSlug}/` : '/en/blog/',
+}
+
+const dateFormat = new Intl.DateTimeFormat(lang === 'tr' ? 'tr-TR' : 'en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+})
+
+const { Content } = await render(entry)
+
+const postLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: entry.data.title,
+  description: entry.data.description,
+  datePublished: entry.data.date.toISOString().slice(0, 10),
+  inLanguage: lang === 'tr' ? 'tr-TR' : 'en',
+  keywords: entry.data.tags.join(', '),
+  mainEntityOfPage: site + path + entry.data.slug + '/',
+  author: { '@type': 'Person', name: 'Ali Gülüstan', url: `${site}/` },
+  publisher: { '@type': 'Person', name: 'Ali Gülüstan', url: `${site}/` },
+}
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t.title, item: site + path },
+    { '@type': 'ListItem', position: 2, name: entry.data.title },
+  ],
+}
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${entry.data.title} | ${ui[lang].seo.blogTitle}`}
+  description={entry.data.description}
+  path={`${path}${entry.data.slug}/`}
+  alternates={alternates}
+  jsonLd={[postLd, breadcrumbLd]}
+  ogType="article"
+>
+  <Navbar lang={lang} path={`${path}${entry.data.slug}/`} alternatePath={alternates[lang === 'tr' ? 'en' : 'tr']} />
+
+  <main class="pb-24 pt-28 md:pt-36">
+    <article class="shell max-w-[640px]">
+      <a
+        href={path}
+        class="inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-secondary"
+      >
+        {t.back}
+      </a>
+
+      <p class="mt-6 font-mono text-xs text-base-content/50">
+        <time datetime={entry.data.date.toISOString().slice(0, 10)}>
+          {dateFormat.format(entry.data.date)}
+        </time>
+      </p>
+      <h1 class="mt-3 text-3xl font-bold leading-tight md:text-4xl">{entry.data.title}</h1>
+      <p class="mt-4 text-lg leading-relaxed text-base-content/70">{entry.data.description}</p>
+
+      <div class="mt-5 flex flex-wrap gap-1.5">
+        {
+          entry.data.tags.map((tag) => (
+            <span class="badge badge-sm border-white/10 bg-white/5 font-mono text-[0.75rem] text-base-content/60">
+              {tag}
+            </span>
+          ))
+        }
+      </div>
+
+      <hr class="my-8 border-white/5" />
+
+      <div class="article">
+        <Content />
+      </div>
+
+      <hr class="my-10 border-white/5" />
+
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <a href={path} class="text-sm font-medium text-accent hover:text-secondary">{t.back}</a>
+        <a href={`${homePath(lang)}#contact`} class="btn btn-outline btn-secondary btn-sm">
+          {ui[lang].hero.ctaSecondary}
+        </a>
+      </div>
+    </article>
+  </main>
+
+  <Footer lang={lang} path={`${path}${entry.data.slug}/`} />
+</BaseLayout>

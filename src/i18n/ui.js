@@ -7,6 +7,10 @@ export function homePath(lang) {
   return lang === 'tr' ? '/' : '/en/'
 }
 
+export function blogPath(lang) {
+  return lang === 'tr' ? '/blog/' : '/en/blog/'
+}
+
 export const levelLabels = {
   tr: {
     prod: 'Üretimde',
@@ -138,8 +142,21 @@ export const ui = {
     footer: {
       top: 'Yukarı dön ↑',
     },
+    blog: {
+      num: '05.',
+      title: 'Yazılar',
+      lead: 'RAG, agent sistemleri, context engineering ve LLM operasyonları üzerine notlar.',
+      home: '← Ana sayfa',
+      back: '← Tüm yazılar',
+      postCta: 'Yazıyı oku',
+      empty: 'Henüz yazı yok.',
+      tags: 'Etiketler',
+    },
     seo: {
       homeTitle: 'Ali Gülüstan — AI Engineer | RAG, AI Agent & Context Engineering',
+      blogTitle: 'Yazılar — Ali Gülüstan | AI Engineer',
+      blogDescription:
+        'RAG, AI agent mimarileri, context engineering ve LLM maliyet optimizasyonu üzerine teknik yazılar.',
       homeDescription:
         'Ali Gülüstan — AI Engineer ve AI Context Manager. RAG pipeline’ları, AI agent sistemleri, context engineering ve LLM entegrasyonları üzerine projeler, yetenekler ve iletişim.',
       caseSuffix: 'Vaka Çalışması',
@@ -229,8 +246,21 @@ export const ui = {
     footer: {
       top: 'Back to top ↑',
     },
+    blog: {
+      num: '05.',
+      title: 'Writing',
+      lead: 'Notes on RAG, agent systems, context engineering and LLM operations.',
+      home: '← Home',
+      back: '← All posts',
+      postCta: 'Read the post',
+      empty: 'No posts yet.',
+      tags: 'Tags',
+    },
     seo: {
       homeTitle: 'Ali Gülüstan — AI Engineer | RAG, AI Agents & Context Engineering',
+      blogTitle: 'Writing — Ali Gülüstan | AI Engineer',
+      blogDescription:
+        'Technical articles on RAG, AI agent architectures, context engineering and LLM cost optimization.',
       homeDescription:
         'Ali Gülüstan — AI Engineer and AI Context Manager. Projects, skills and contact around RAG pipelines, AI agent systems, context engineering and LLM integrations.',
       caseSuffix: 'Case Study',
