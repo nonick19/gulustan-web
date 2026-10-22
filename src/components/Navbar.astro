@@ -1,0 +1,103 @@
+---
+import { homePath, ui } from '../i18n/ui.js'
+
+const { lang = 'tr', path = '/', alternatePath = '/en/' } = Astro.props
+const t = ui[lang]
+const home = homePath(lang)
+const onHome = path === home
+const sectionHref = (id) => (onHome ? `#${id}` : `${home}#${id}`)
+---
+
+<header
+  class="site-header fixed inset-x-0 top-0 z-50 border-b border-transparent transition-colors duration-300"
+  data-navbar
+>
+  <nav class="shell navbar h-16 min-h-0 px-0" aria-label={t.menuOpen}>
+    <div class="flex-1">
+      <a href={home} class="text-xl font-extrabold tracking-[0.08em]">
+        AG<span class="text-primary">.</span>
+      </a>
+    </div>
+
+    <ul class="hidden items-center gap-1 md:flex">
+      {
+        t.nav.map((link) => (
+          <li>
+            <a
+              href={sectionHref(link.id)}
+              data-nav-section={onHome ? link.id : undefined}
+              class="nav-link btn btn-ghost btn-sm font-medium text-base-content/70"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a
+          href={alternatePath}
+          hreflang={lang === 'tr' ? 'en' : 'tr'}
+          class="btn btn-ghost btn-sm font-mono text-xs text-secondary/80 hover:text-secondary"
+        >
+          {t.switchLang}
+        </a>
+      </li>
+    </ul>
+
+    <button
+      type="button"
+      class="btn btn-ghost btn-square md:hidden"
+      aria-label={t.menuOpen}
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      data-menu-toggle
+      data-label-open={t.menuOpen}
+      data-label-close={t.menuClose}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        class="h-5 w-5"
+        aria-hidden="true"
+      >
+        <path d="M4 7h16M4 12h16M4 17h16"></path>
+      </svg>
+    </button>
+  </nav>
+
+  <div id="mobile-menu" class="mobile-menu md:hidden">
+    <ul class="shell flex flex-col gap-1 pb-4">
+      {
+        t.nav.map((link) => (
+          <li>
+            <a
+              href={sectionHref(link.id)}
+              data-nav-section={onHome ? link.id : undefined}
+              class="flex rounded-lg px-3 py-2 text-sm font-medium text-base-content/70 transition-colors hover:bg-white/5"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a
+          href={alternatePath}
+          hreflang={lang === 'tr' ? 'en' : 'tr'}
+          class="flex rounded-lg px-3 py-2 font-mono text-sm text-secondary/80"
+        >
+          {t.switchLang}
+        </a>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<script>
+  import { initNavbar } from '../scripts/navbar.js'
+  initNavbar()
+</script>

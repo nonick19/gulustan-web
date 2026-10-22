@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/public-sans';
+@import 'tailwindcss';
 
 @plugin "daisyui" {
   themes: false;
@@ -54,8 +56,8 @@
 }
 
 @theme {
-  --font-sans: 'Public Sans', 'Segoe UI', system-ui, sans-serif;
-  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Public Sans Variable', 'Public Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Fraunces Variable', 'Fraunces', Georgia, 'Times New Roman', serif;
   --font-mono: ui-monospace, 'Cascadia Mono', Consolas, monospace;
 }
 
@@ -143,4 +145,31 @@
 @keyframes scroll-hint {
   0%, 100% { transform: translateY(0); opacity: 1; }
   50% { transform: translateY(10px); opacity: 0.3; }
+}
+
+/* ---------- Navbar durumları ---------- */
+.site-header.is-scrolled,
+.site-header.is-open {
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+  background-color: color-mix(in oklab, var(--color-base-100) 85%, transparent);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.mobile-menu {
+  display: none;
+}
+
+.site-header.is-open .mobile-menu {
+  display: block;
+}
+
+.nav-link[data-nav-active] {
+  color: var(--color-secondary);
+}
+
+.mobile-menu a[data-nav-active] {
+  background-color: color-mix(in oklab, var(--color-primary) 10%, transparent);
+  color: var(--color-secondary);
 }

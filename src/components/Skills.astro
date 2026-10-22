@@ -1,0 +1,108 @@
+---
+import SectionTitle from './SectionTitle.astro'
+import { levelLabels, ui } from '../i18n/ui.js'
+import { projects } from '../data/projects.js'
+import { processSteps, skillGroups, tools } from '../data/skills.js'
+
+const { lang = 'tr' } = Astro.props
+const t = ui[lang].skills
+const levels = levelLabels[lang]
+
+// Yetenek başına kanıt sayısı: ilgili proje sayısı.
+function proofCount(filter) {
+  return projects.filter((project) => project.category === filter || project.tags.includes(filter)).length
+}
+
+const levelStyles = {
+  prod: 'badge-success badge-soft',
+  project: 'badge-info badge-soft',
+  familiar: 'badge-ghost',
+}
+---
+
+<section id="skills" class="py-20 md:py-28">
+  <div class="shell">
+    <SectionTitle num={t.num} title={t.title} lead={t.lead} />
+
+    <div class="mb-10 flex flex-wrap gap-2" data-reveal>
+      {
+        tools.map((tool) => (
+          <span class="badge badge-md border border-white/10 bg-base-200/60 px-3 py-3 font-mono text-xs text-base-content/60">
+            <span aria-hidden="true" class="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-secondary" />
+            {tool}
+          </span>
+        ))
+      }
+    </div>
+
+    <div class="grid gap-5 md:grid-cols-2">
+      {
+        skillGroups.map((group) => (
+          <div
+            data-reveal
+            class="rounded-2xl border border-white/5 bg-base-200/40 p-5 transition hover:border-white/10 md:p-6"
+          >
+            <div class="mb-4">
+              <h3 class="text-lg font-bold">{group[lang].title}</h3>
+              <p class="mt-1 text-sm text-base-content/55">{group[lang].blurb}</p>
+            </div>
+            <ul>
+              {group.skills.map((skill) => (
+                <li class="border-t border-white/5 py-4 first:border-t-0 first:pt-0 last:pb-0">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h4 class="font-semibold text-base-content">{skill[lang].name}</h4>
+                    <span class={`badge badge-sm ${levelStyles[skill.level] ?? 'badge-ghost'}`}>
+                      {levels[skill.level]}
+                    </span>
+                  </div>
+
+                  <p class="mt-1 text-sm leading-relaxed text-base-content/60">{skill[lang].desc}</p>
+
+                  <div class="mt-2.5 flex flex-wrap items-center gap-1.5">
+                    {skill.tags.map((tag) => (
+                      <span class="badge badge-sm border-white/5 bg-white/5 font-mono text-[0.75rem] text-base-content/55">
+                        {tag}
+                      </span>
+                    ))}
+                    {proofCount(skill.filter) > 0 && (
+                      <button
+                        type="button"
+                        data-project-filter={skill.filter}
+                        class="ml-auto inline-flex items-center gap-1 text-xs font-medium text-accent hover:text-secondary"
+                      >
+                        {t.related(proofCount(skill.filter))} <span aria-hidden="true">→</span>
+                      </button>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="mt-14" data-reveal>
+      <h3 class="mb-6 text-sm font-semibold uppercase tracking-[0.2em] text-base-content/55">
+        {t.processTitle}
+      </h3>
+      <ul class="steps steps-vertical w-full md:steps-horizontal">
+        {
+          processSteps.map((step, index) => (
+            <li
+              data-content={String(index + 1).padStart(2, '0')}
+              class="step step-primary"
+            >
+              <div class="text-left md:text-center">
+                <p class="font-semibold">{step[lang].title}</p>
+                <p class="mt-1 max-w-[15rem] text-xs leading-relaxed text-base-content/55">
+                  {step[lang].desc}
+                </p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

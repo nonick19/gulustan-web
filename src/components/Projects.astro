@@ -1,0 +1,216 @@
+---
+import SectionTitle from './SectionTitle.astro'
+import ProjectCover from './ProjectCover.astro'
+import { categories, projects, projectPath } from '../data/projects.js'
+import { ui } from '../i18n/ui.js'
+
+const { lang = 'tr' } = Astro.props
+const t = ui[lang].projects
+const featured = projects.find((project) => project.featured)
+const caseHref = (project) => projectPath(lang, project.slug)
+
+const linkItems = (project) =>
+  [
+    project.links?.demo ? { href: project.links.demo, label: t.liveDemo } : null,
+    project.links?.repo ? { href: project.links.repo, label: t.repo } : null,
+  ].filter(Boolean)
+---
+
+<section
+  id="projects"
+  class="py-20 md:py-28"
+  data-projects
+  data-count-one={t.countOne}
+  data-count-many={t.countMany}
+  data-clear-template={t.removeFilter}
+>
+  <div class="shell">
+    <SectionTitle num={t.num} title={t.title} lead={t.lead} />
+
+    <div class="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between" data-reveal>
+      <div class="tabs tabs-box tabs-sm w-fit bg-base-200/70 p-1" role="group" aria-label={t.title}>
+        {
+          categories.map((category) => (
+            <button
+              type="button"
+              data-filter={category.key}
+              aria-pressed={category.key === 'all' ? 'true' : 'false'}
+              class:list={['tab', category.key === 'all' && 'tab-active']}
+            >
+              {category[lang]}
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button type="button" data-clear-filter hidden class="badge badge-soft badge-accent badge-sm gap-1.5 py-3">
+          <span data-clear-label></span>
+          <span aria-hidden="true">✕</span>
+        </button>
+        <p aria-live="polite" class="font-mono text-xs text-base-content/50" data-project-count>
+          {t.countMany.replace('{n}', String(projects.length))}
+        </p>
+      </div>
+    </div>
+
+    <div class="space-y-6">
+      {
+        featured && (
+          <div data-featured-card data-reveal>
+            <article class="card overflow-hidden border border-white/10 bg-base-200/50 transition duration-300 hover:border-primary/40 lg:card-side">
+              <ProjectCover category={featured.category} year={featured.year} variant="featured" />
+              <div class="card-body gap-4 p-6">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="badge badge-primary badge-sm">{t.featuredBadge}</span>
+                  <span class="badge badge-ghost badge-sm text-base-content/60">
+                    {featured[lang].role}
+                  </span>
+                </div>
+
+                <div>
+                  <h3 class="text-xl font-bold leading-tight md:text-2xl">
+                    <a href={caseHref(featured)} class="hover:text-accent">
+                      {featured[lang].title}
+                    </a>
+                  </h3>
+                  <p class="mt-2 text-sm leading-relaxed text-base-content/60 md:text-base">
+                    {featured[lang].summary}
+                  </p>
+                </div>
+
+                <div class="flex flex-wrap gap-2">
+                  {featured[lang].highlights.map((item) => (
+                    <span class="badge badge-success badge-soft badge-sm">{item}</span>
+                  ))}
+                </div>
+
+                <div class="flex flex-wrap gap-1.5">
+                  {featured.tags.map((tag) => (
+                    <span class="badge badge-sm border-white/10 bg-white/5 font-mono text-[0.75rem] text-base-content/60">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div class="card-actions mt-auto items-center justify-between">
+                  <a href={caseHref(featured)} class="btn btn-primary btn-sm gap-2">
+                    {t.caseCta}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="h-3.5 w-3.5"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </a>
+                  {linkItems(featured).length > 0 && (
+                    <div class="flex items-center gap-1">
+                      {linkItems(featured).map((item) => (
+                        <a
+                          href={item.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="btn btn-ghost btn-xs text-base-content/60 hover:text-secondary"
+                        >
+                          {item.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </article>
+          </div>
+        )
+      }
+
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          projects.map((project) => (
+            <div
+              data-project-card
+              data-category={project.category}
+              data-tags={project.tags.join('|')}
+              data-featured-grid-card={project.featured ? '' : undefined}
+              data-reveal
+            >
+              <article class="card group border border-white/5 bg-base-200/50 transition duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-black/30">
+                <ProjectCover category={project.category} year={project.year} />
+                <div class="card-body gap-3 p-5">
+                  <h3 class="text-base font-bold leading-snug">
+                    <a href={caseHref(project)} class="hover:text-accent">
+                      {project[lang].title}
+                    </a>
+                  </h3>
+                  <p class="text-sm leading-relaxed text-base-content/60">{project[lang].summary}</p>
+                  <div class="flex flex-wrap gap-1.5">
+                    {project.tags.map((tag) => (
+                      <span class="badge badge-sm border-white/10 bg-white/5 font-mono text-[0.75rem] text-base-content/60">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div class="card-actions mt-auto items-center justify-between pt-1">
+                    <a
+                      href={caseHref(project)}
+                      class="btn btn-ghost btn-xs gap-1 px-0 text-accent hover:bg-transparent hover:text-secondary"
+                    >
+                      {t.caseCta}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="h-3.5 w-3.5"
+                        aria-hidden="true"
+                      >
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                      </svg>
+                    </a>
+                    {linkItems(project).length > 0 && (
+                      <div class="flex items-center gap-1">
+                        {linkItems(project).map((item) => (
+                          <a
+                            href={item.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="btn btn-ghost btn-xs text-base-content/60 hover:text-secondary"
+                          >
+                            {item.label}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </article>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div
+      data-projects-empty
+      hidden
+      class="rounded-2xl border border-dashed border-white/10 p-10 text-center text-sm text-base-content/50"
+    >
+      {t.empty}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initProjects } from '../scripts/projects.js'
+  initProjects()
+</script>

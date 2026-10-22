@@ -1,0 +1,181 @@
+---
+// Vaka çalışması sayfası — proje verisinden (src/data/projects.js) iki dilde üretilir.
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Navbar from './Navbar.astro'
+import Footer from './Footer.astro'
+import ProjectCover from './ProjectCover.astro'
+import { homePath, ui } from '../i18n/ui.js'
+import { projectPath } from '../data/projects.js'
+
+const { lang = 'tr', project } = Astro.props
+const t = ui[lang]
+const c = project[lang]
+const path = projectPath(lang, project.slug)
+const alternates = {
+  tr: projectPath('tr', project.slug),
+  en: projectPath('en', project.slug),
+}
+const site = 'https://gulustan.net'
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: t.nav[0].label,
+      item: site + homePath(lang),
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: t.projects.title,
+      item: site + homePath(lang) + '#projects',
+    },
+    { '@type': 'ListItem', position: 3, name: c.title },
+  ],
+}
+
+const workLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: c.title,
+  description: c.summary,
+  inLanguage: lang === 'tr' ? 'tr-TR' : 'en',
+  dateCreated: project.year,
+  keywords: project.tags.join(', '),
+  author: { '@type': 'Person', name: 'Ali Gülüstan', url: `${site}/` },
+}
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${c.title} — ${t.seo.caseSuffix} | Ali Gülüstan`}
+  description={t.seo.caseDescription(c.title)}
+  path={path}
+  alternates={alternates}
+  jsonLd={[breadcrumbLd, workLd]}
+  ogType="article"
+>
+  <Navbar
+    lang={lang}
+    path={path}
+    alternatePath={alternates[lang === 'tr' ? 'en' : 'tr']}
+  />
+
+  <main class="pb-20 pt-28 md:pt-32">
+    <article class="shell">
+      <a
+        href={`${homePath(lang)}#projects`}
+        class="inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-secondary"
+      >
+        {t.projects.case.back}
+      </a>
+
+      <div class="mt-6 overflow-hidden rounded-2xl">
+        <ProjectCover category={project.category} year={project.year} variant="banner" />
+      </div>
+
+      <div class="mt-8 flex flex-wrap items-center gap-2">
+        <span class="badge badge-ghost badge-sm text-base-content/60">{project.category}</span>
+        <span class="badge badge-ghost badge-sm text-base-content/60">{c.role}</span>
+        <span class="badge badge-ghost badge-sm text-base-content/60">
+          {t.projects.case.year} {project.year}
+        </span>
+      </div>
+
+      <h1 class="mt-4 max-w-[20ch] text-3xl font-bold leading-tight md:text-4xl">{c.title}</h1>
+      <p class="mt-5 max-w-[680px] text-lg leading-relaxed text-base-content/70">{c.summary}</p>
+
+      <div class="mt-10 grid gap-10 md:grid-cols-[1.5fr_1fr]">
+        <div class="max-w-[680px] space-y-8">
+          <section>
+            <h2 class="text-xl font-bold">{t.projects.case.problem}</h2>
+            <p class="mt-3 leading-relaxed text-base-content/65">{c.problem}</p>
+          </section>
+
+          <section>
+            <h2 class="text-xl font-bold">{t.projects.case.approach}</h2>
+            <ul class="mt-3 space-y-3">
+              {
+                c.approach.map((step) => (
+                  <li class="flex gap-3 leading-relaxed text-base-content/65">
+                    <span aria-hidden="true" class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-secondary" />
+                    <span>{step}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </section>
+        </div>
+
+        <aside class="h-fit space-y-6 rounded-2xl border border-white/5 bg-base-200/40 p-6">
+          <div>
+            <h2 class="text-xs font-semibold uppercase tracking-[0.2em] text-base-content/55">
+              {t.projects.case.highlights}
+            </h2>
+            <div class="mt-3 flex flex-wrap gap-2">
+              {
+                c.highlights.map((item) => (
+                  <span class="badge badge-success badge-soft badge-sm">{item}</span>
+                ))
+              }
+            </div>
+          </div>
+
+          <div>
+            <h2 class="text-xs font-semibold uppercase tracking-[0.2em] text-base-content/55">
+              {t.projects.case.stack}
+            </h2>
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              {
+                project.tags.map((tag) => (
+                  <span class="badge badge-sm border-white/10 bg-white/5 font-mono text-[0.75rem] text-base-content/60">
+                    {tag}
+                  </span>
+                ))
+              }
+            </div>
+          </div>
+
+          {
+            (project.links?.demo || project.links?.repo) && (
+              <div class="flex flex-wrap gap-2">
+                {project.links?.demo && (
+                  <a
+                    href={project.links.demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-outline btn-secondary btn-sm"
+                  >
+                    {t.projects.liveDemo}
+                  </a>
+                )}
+                {project.links?.repo && (
+                  <a
+                    href={project.links.repo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-outline btn-secondary btn-sm"
+                  >
+                    {t.projects.repo}
+                  </a>
+                )}
+              </div>
+            )
+          }
+        </aside>
+      </div>
+
+      <div class="mt-14 rounded-2xl border border-white/5 bg-base-200/40 p-8 text-center">
+        <p class="text-lg font-semibold">{t.projects.case.contactCta}</p>
+        <a href={`${homePath(lang)}#contact`} class="btn btn-primary mt-4">
+          {t.hero.ctaSecondary}
+        </a>
+      </div>
+    </article>
+  </main>
+
+  <Footer lang={lang} path={path} />
+</BaseLayout>

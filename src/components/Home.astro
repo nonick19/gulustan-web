@@ -1,0 +1,35 @@
+---
+// Ana sayfa kompozisyonu — iki dilde tek kaynaktan (tr: /, en: /en/).
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Navbar from './Navbar.astro'
+import Hero from './Hero.astro'
+import About from './About.astro'
+import Skills from './Skills.astro'
+import Projects from './Projects.astro'
+import Contact from './Contact.astro'
+import Footer from './Footer.astro'
+import { homePath, ui } from '../i18n/ui.js'
+
+const { lang = 'tr' } = Astro.props
+const t = ui[lang]
+const path = homePath(lang)
+const alternates = { tr: '/', en: '/en/' }
+---
+
+<BaseLayout
+  lang={lang}
+  title={t.seo.homeTitle}
+  description={t.seo.homeDescription}
+  path={path}
+  alternates={alternates}
+>
+  <Navbar lang={lang} path={path} alternatePath={alternates[lang === 'tr' ? 'en' : 'tr']} />
+  <main>
+    <Hero lang={lang} />
+    <About lang={lang} />
+    <Skills lang={lang} />
+    <Projects lang={lang} />
+    <Contact lang={lang} />
+  </main>
+  <Footer lang={lang} path={path} />
+</BaseLayout>

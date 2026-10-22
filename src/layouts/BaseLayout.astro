@@ -1,0 +1,89 @@
+---
+// Tüm sayfaların ortak <head> yapısı: SEO, hreflang, Open Graph ve JSON-LD.
+import '../styles/global.css'
+
+const {
+  lang = 'tr',
+  title,
+  description,
+  path,
+  alternates,
+  jsonLd = [],
+  ogType = 'website',
+} = Astro.props
+
+const site = 'https://gulustan.net'
+const canonical = site + path
+const locale = lang === 'tr' ? 'tr_TR' : 'en_US'
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Ali Gülüstan',
+  url: `${site}/`,
+  jobTitle: 'AI Engineer & AI Context Manager',
+  email: 'mailto:a.gulustan@live.de',
+  knowsAbout: [
+    'Retrieval-Augmented Generation',
+    'Context Engineering',
+    'Prompt Engineering',
+    'AI Agents',
+    'Vector Databases',
+  ],
+  sameAs: ['https://github.com/nonick19'],
+}
+
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Ali Gülüstan — AI Engineer',
+  url: `${site}/`,
+  inLanguage: lang === 'tr' ? 'tr-TR' : 'en',
+  description,
+}
+
+const ldBlocks = [personLd, websiteLd, ...(Array.isArray(jsonLd) ? jsonLd : [jsonLd])]
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#17140f" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    {
+      alternates && (
+        <>
+          <link rel="alternate" hreflang="tr" href={site + alternates.tr} />
+          <link rel="alternate" hreflang="en" href={site + alternates.en} />
+          <link rel="alternate" hreflang="x-default" href={site + alternates.tr} />
+        </>
+      )
+    }
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content={locale} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="gulustan.net" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    {ldBlocks.map((block) => <script type="application/ld+json" set:html={JSON.stringify(block)} />)}
+  </head>
+  <body>
+    <slot />
+    <script>
+      import { initReveal } from '../scripts/reveal.js'
+      initReveal()
+    </script>
+  </body>
+</html>

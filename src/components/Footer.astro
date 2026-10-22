@@ -1,0 +1,15 @@
+---
+import { homePath, ui } from '../i18n/ui.js'
+
+const { lang = 'tr', path = '/' } = Astro.props
+const t = ui[lang]
+const home = homePath(lang)
+const topHref = path === home ? '#hero' : home
+---
+
+<footer class="border-t border-white/5 bg-base-200/40 py-8">
+  <div class="shell flex flex-wrap items-center justify-between gap-3 text-sm text-base-content/55">
+    <p>© {new Date().getFullYear()} Ali Gülüstan — AI Engineer & AI Context Manager</p>
+    <a href={topHref} class="text-secondary transition-colors hover:text-accent">{t.footer.top}</a>
+  </div>
+</footer>

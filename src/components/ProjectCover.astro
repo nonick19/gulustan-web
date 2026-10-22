@@ -1,0 +1,37 @@
+---
+// Proje kapakları görsel gerektirmeden, kategoriye göre ürelen düz tonlu
+// yüzeylerdir. Gerçek görseliniz olduğunda `project.image` alanını doldurup
+// burada <img> kullanabilirsiniz.
+const coverPalettes = {
+  RAG: ['#7a3327', '#2e1512'],
+  Agent: ['#6b4a1f', '#241705'],
+  Pipeline: ['#2f5d50', '#0f2420'],
+  Memory: ['#7a4a2b', '#2a1710'],
+}
+
+const fallback = ['#4a3b2c', '#1c1510']
+
+const { category, year, variant = 'card', class: className = '' } = Astro.props
+
+const heights = {
+  card: 'h-32',
+  featured: 'h-48 sm:h-56 lg:h-auto lg:w-2/5',
+  banner: 'h-48 w-full sm:h-64',
+}
+
+const [from, to] = coverPalettes[category] ?? fallback
+---
+
+<div
+  aria-hidden="true"
+  class:list={['relative isolate overflow-hidden', heights[variant] ?? heights.card, className]}
+  style={`background-image: linear-gradient(135deg, ${from}, ${to})`}
+>
+  <div class="absolute -right-10 -top-12 h-40 w-40 rounded-full bg-white/20 blur-2xl"></div>
+  <div class="absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-black/25 blur-2xl"></div>
+
+  <span class="absolute bottom-4 left-5 font-mono text-[0.75rem] uppercase tracking-[0.3em] text-white">
+    {category}
+  </span>
+  <span class="absolute right-5 top-4 font-mono text-[0.75rem] text-white/95">{year}</span>
+</div>
