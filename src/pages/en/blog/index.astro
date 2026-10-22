@@ -3,7 +3,8 @@ import { getCollection } from 'astro:content'
 import BlogIndex from '../../../components/BlogIndex.astro'
 
 const posts = (await getCollection('blog', ({ data }) => data.lang === 'en')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  (a, b) =>
+    b.data.date.valueOf() - a.data.date.valueOf() || a.data.title.localeCompare(b.data.title, 'en'),
 )
 ---
 
